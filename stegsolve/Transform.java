@@ -375,9 +375,9 @@ public class Transform {
         switch(transNum)
         {
             case 0:
-              return "正常图像";
+              return "Normal Image";
             case 1:
-              return "颜色反转 (Xor)";
+              return "Colour Inversion (Xor)";
             case 2:
             case 3:
             case 4:
@@ -429,7 +429,7 @@ public class Transform {
             case 40:
               return "Random colour map 3";
             case 41:
-              return "灰度";
+              return "Gray bits";
             default:
               return "";
         }

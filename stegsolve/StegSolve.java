@@ -148,52 +148,52 @@ public class StegSolve extends JFrame {
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        menuFile.setText("文件");
+        menuFile.setText("File");
 
         fileOpen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, 0));
-        fileOpen.setText("打开");
+        fileOpen.setText("Open");
         fileOpen.addActionListener(this::fileOpenActionPerformed);
         menuFile.add(fileOpen);
 
         fileSave.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, 0));
-        fileSave.setText("另存为");
+        fileSave.setText("Save As");
         fileSave.addActionListener(this::fileSaveActionPerformed);
         menuFile.add(fileSave);
 
         fileExit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, 0));
-        fileExit.setText("退出");
+        fileExit.setText("Exit");
         fileExit.addActionListener(this::fileExitActionPerformed);
         menuFile.add(fileExit);
 
         menuBar.add(menuFile);
 
-        menuAnalyse.setText("分析");
+        menuAnalyse.setText("Analyse");
 
-        analyseFormat.setText("文件格式");
+        analyseFormat.setText("File Format");
         analyseFormat.addActionListener(this::analyseFormatActionPerformed);
         menuAnalyse.add(analyseFormat);
 
-        analyseExtract.setText("数据提取");
+        analyseExtract.setText("Data Extract");
         analyseExtract.addActionListener(this::analyseExtractActionPerformed);
         menuAnalyse.add(analyseExtract);
 
-        stereoSolve.setText("立体视图");
+        stereoSolve.setText("Stereogram Solver");
         stereoSolve.addActionListener(this::stereoSolveActionPerformed);
         menuAnalyse.add(stereoSolve);
 
-        frameBrowse.setText("帧浏览器");
+        frameBrowse.setText("Frame Browser");
         frameBrowse.addActionListener(this::frameBrowseActionPerformed);
         menuAnalyse.add(frameBrowse);
 
-        imageCombine.setText("图像合成器");
+        imageCombine.setText("Image Combiner");
         imageCombine.addActionListener(this::imageCombineActionPerformed);
         menuAnalyse.add(imageCombine);
 
         menuBar.add(menuAnalyse);
 
-        menuHelp.setText("帮助");
+        menuHelp.setText("Help");
 
-        about.setText("关于");
+        about.setText("About");
         about.addActionListener(this::aboutActionPerformed);
         menuHelp.add(about);
 
@@ -368,7 +368,7 @@ public class StegSolve extends JFrame {
         JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir"));
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Images", "jpg", "jpeg", "gif", "bmp", "png");
         fileChooser.setFileFilter(filter);
-        fileChooser.setDialogTitle("选择要合并的图像");
+        fileChooser.setDialogTitle("Select image to combine with");
         int rVal = fileChooser.showOpenDialog(this);
         System.setProperty("user.dir", fileChooser.getCurrentDirectory().getAbsolutePath());
         if (rVal == JFileChooser.APPROVE_OPTION) {
@@ -378,7 +378,7 @@ public class StegSolve extends JFrame {
                 bi2 = ImageIO.read(sfile);
                 new Combiner(bi, bi2).setVisible(true);
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "加载文件失败: " + e.toString());
+                JOptionPane.showMessageDialog(this, "Failed to load file: " + e.toString());
             }
         }
     }
@@ -412,7 +412,7 @@ public class StegSolve extends JFrame {
                 else
                     ImageIO.write(bi, sfile.getName().substring(rns), sfile);
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "写入文件失败: " + e.toString());
+                JOptionPane.showMessageDialog(this, "Failed to write file: " + e.toString());
             }
         }
     }
@@ -447,7 +447,7 @@ public class StegSolve extends JFrame {
             newImage();
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "加载文件失败: " + e.toString());
+            JOptionPane.showMessageDialog(this, "Failed to load file: " + e.toString());
         }
     }
 

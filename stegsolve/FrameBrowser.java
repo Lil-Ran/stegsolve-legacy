@@ -97,7 +97,7 @@ public class FrameBrowser extends JFrame
                 frames.add(bnext);
                 numframes++;
             }
-            System.out.println("总帧数 " + numframes);
+            System.out.println("total frames " + numframes);
         }
         catch (IOException e)
         {

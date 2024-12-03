@@ -39,9 +39,9 @@ public class FileAnalysis extends javax.swing.JFrame {
     {
         rep = new StringBuilder();
         rep.append("<html><center><b>");
-        rep.append("文件格式报告");
+        rep.append("File format report");
         rep.append("</b></center>");
-        rep.append(("<br>文件: "+ifile.getName()));
+        rep.append(("<br>File: "+ifile.getName()));
         try{
           FileInputStream fis = new FileInputStream(ifile);
           f = new byte[(int)ifile.length()];
@@ -51,7 +51,7 @@ public class FileAnalysis extends javax.swing.JFrame {
         }
         catch(Exception e)
         {
-           rep.append(("读取文件时出错: "+e.toString()));
+           rep.append(("Error reading file: "+e.toString()));
         }
         rep.append("</html>");
         report.setText(rep.toString());
@@ -66,7 +66,7 @@ public class FileAnalysis extends javax.swing.JFrame {
         // analyse f, write report to rep
         if(f.length<4)
         {
-           rep.append("<br>文件太短？");
+           rep.append("<br>file too short?");
            return;
         }
         if(f[0] == 'B' && f[1] == 'M')
@@ -78,7 +78,7 @@ public class FileAnalysis extends javax.swing.JFrame {
            analyse_gif();
         else if(f[0]==(byte)0xff && f[1]==(byte)0xd8)
             analyse_jpg();
-        else rep.append("<br>文件格式分析代码尚未完成！");
+        else rep.append("<br>File format analysis code not done yet!");
     }
 
     /**
@@ -90,8 +90,8 @@ public class FileAnalysis extends javax.swing.JFrame {
         cpos = analyse_jpg_sections(cpos);
         if(cpos<f.length)
         {
-            rep.append(("<br>文件末尾的附加字节数 = " +(f.length-cpos)));
-            rep.append("<br>转储附加字节:");
+            rep.append(("<br>Additional bytes at end of file = " +(f.length-cpos)));
+            rep.append("<br>Dump of additional bytes:");
             fdump(cpos, f.length);
         }
     }
@@ -105,12 +105,12 @@ public class FileAnalysis extends javax.swing.JFrame {
     {
         if(f[pos]==(byte)0xff && f[pos+1]==(byte)0xd8)
         {
-            rep.append("<br>图像的开头");
+            rep.append("<br>Start of Image");
             pos+=2;
         }
         else if(f[pos] == (byte) 0xff && f[pos + 1] == (byte) 0xd9)
         {
-            rep.append("<br><br>图像结尾");
+            rep.append("<br><br>End of Image");
             pos+=2;
             return pos;
         }
@@ -932,7 +932,7 @@ public class FileAnalysis extends javax.swing.JFrame {
         OKButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("文件格式分析");
+        setTitle("File Format Analysis");
 
         jPanel1.setMinimumSize(new java.awt.Dimension(400, 300));
         jPanel1.setPreferredSize(new java.awt.Dimension(400, 350));
@@ -941,7 +941,7 @@ public class FileAnalysis extends javax.swing.JFrame {
         jScrollPane1.setPreferredSize(new java.awt.Dimension(400, 260));
 
         report.setContentType("text/html");
-        report.setFont(new java.awt.Font("微软雅黑", 0, 14)); // NOI18N
+        report.setFont(new java.awt.Font("Courier New", 0, 14)); // NOI18N
         jScrollPane1.setViewportView(report);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -960,7 +960,7 @@ public class FileAnalysis extends javax.swing.JFrame {
         jPanel2.setMinimumSize(new java.awt.Dimension(400, 35));
         jPanel2.setPreferredSize(new java.awt.Dimension(400, 35));
 
-        OKButton.setText("确认");
+        OKButton.setText("OK");
         OKButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         OKButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

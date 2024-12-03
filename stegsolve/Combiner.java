@@ -192,7 +192,7 @@ public class Combiner extends JFrame
             }
             catch (Exception e)
             {
-                JOptionPane.showMessageDialog(this, "写入文件失败: "+e.toString());
+                JOptionPane.showMessageDialog(this, "Failed to write file: "+e.toString());
             }
         }
     }
