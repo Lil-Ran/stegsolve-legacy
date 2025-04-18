@@ -7,6 +7,9 @@
 package stegsolve;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.*;
 import java.io.*;
 import java.awt.image.*;
@@ -23,6 +26,7 @@ import java.awt.*;
  */
 public class StegSolve extends JFrame
 {
+    static StegSolve that;
     /**
      * Menu option - about
      */
@@ -83,6 +87,7 @@ public class StegSolve extends JFrame
      * panel for buttons
      */
     private JPanel buttonPanel;
+    private ZoomSlider zoomSlider;
     /**
      * Next frame button
      */
@@ -114,8 +119,9 @@ public class StegSolve extends JFrame
     private Transform transform = null;
 
     /** Creates new form stegsolve */
-    public StegSolve()
+    private StegSolve()
     {
+        that = this;
         initComponents();
     }
 
@@ -143,29 +149,17 @@ public class StegSolve extends JFrame
 
         fileOpen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, 0));
         fileOpen.setText("Open");
-        fileOpen.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                fileOpenActionPerformed(evt);
-            }
-        });
+        fileOpen.addActionListener(this::fileOpenActionPerformed);
         menuFile.add(fileOpen);
 
         fileSave.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, 0));
         fileSave.setText("Save As");
-        fileSave.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                fileSaveActionPerformed(evt);
-            }
-        });
+        fileSave.addActionListener(this::fileSaveActionPerformed);
         menuFile.add(fileSave);
 
         fileExit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, 0));
         fileExit.setText("Exit");
-        fileExit.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                fileExitActionPerformed(evt);
-            }
-        });
+        fileExit.addActionListener(this::fileExitActionPerformed);
         menuFile.add(fileExit);
 
         menuBar.add(menuFile);
@@ -173,43 +167,23 @@ public class StegSolve extends JFrame
         menuAnalyse.setText("Analyse");
 
         analyseFormat.setText("File Format");
-        analyseFormat.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                analyseFormatActionPerformed(evt);
-            }
-        });
+        analyseFormat.addActionListener(this::analyseFormatActionPerformed);
         menuAnalyse.add(analyseFormat);
 
         analyseExtract.setText("Data Extract");
-        analyseExtract.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                analyseExtractActionPerformed(evt);
-            }
-        });
+        analyseExtract.addActionListener(this::analyseExtractActionPerformed);
         menuAnalyse.add(analyseExtract);
 
         stereoSolve.setText("Stereogram Solver");
-        stereoSolve.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                stereoSolveActionPerformed(evt);
-            }
-        });
+        stereoSolve.addActionListener(this::stereoSolveActionPerformed);
         menuAnalyse.add(stereoSolve);
 
         frameBrowse.setText("Frame Browser");
-        frameBrowse.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                frameBrowseActionPerformed(evt);
-            }
-        });
+        frameBrowse.addActionListener(this::frameBrowseActionPerformed);
         menuAnalyse.add(frameBrowse);
 
         imageCombine.setText("Image Combiner");
-        imageCombine.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                imageCombineActionPerformed(evt);
-            }
-        });
+        imageCombine.addActionListener(this::imageCombineActionPerformed);
         menuAnalyse.add(imageCombine);
 
         menuBar.add(menuAnalyse);
@@ -217,11 +191,7 @@ public class StegSolve extends JFrame
         menuHelp.setText("Help");
 
         about.setText("About");
-        about.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                aboutActionPerformed(evt);
-            }
-        });
+        about.addActionListener(this::aboutActionPerformed);
         menuHelp.add(about);
 
         menuBar.add(menuHelp);
@@ -230,28 +200,60 @@ public class StegSolve extends JFrame
 
         setLayout(new BorderLayout());
 
-        this.add(nowShowing, BorderLayout.NORTH);
+        JPanel textZoom = new JPanel();
+        textZoom.setLayout(new BorderLayout());
+
+        textZoom.add(nowShowing, BorderLayout.NORTH);
 
         buttonPanel = new JPanel();
         backwardButton = new JButton("<");
-        backwardButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                backwardButtonActionPerformed(evt);
-            }
-        });
+        backwardButton.addActionListener(this::backwardButtonActionPerformed);
         forwardButton = new JButton(">");
-        forwardButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                forwardButtonActionPerformed(evt);
-            }
-        });
+        forwardButton.addActionListener(this::forwardButtonActionPerformed);
         buttonPanel.add(backwardButton);
         buttonPanel.add(forwardButton);
 
         add(buttonPanel, BorderLayout.SOUTH);
 
+        zoomSlider = new ZoomSlider(10, 1000, 100);
+
+        zoomSlider.addChangeListener(v -> {
+            dp.apply(v);
+            dp.revalidate();
+        });
+
+        textZoom.add(zoomSlider, BorderLayout.SOUTH);
+
+        add(textZoom, BorderLayout.NORTH);
+
         dp = new DPanel();
         scrollPane = new JScrollPane(dp);
+
+        //Horizontal scrolling
+        JFrame frame = this;
+        frame.addKeyListener(new KeyListener() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+              // TODO Auto-generated method stub
+                if(e.isShiftDown()) {
+                  frame.addMouseWheelListener(arg01 -> {
+                      // TODO Auto-generated method stub
+                      scrollPane.getHorizontalScrollBar().setValue(scrollPane.getHorizontalScrollBar().getValue()+ arg01.getWheelRotation());
+                  });
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if(!e.isShiftDown()) {
+                    frame.removeMouseWheelListener(frame.getMouseWheelListeners()[0]);
+                }
+            }
+
+            @Override
+            public void keyTyped(KeyEvent e) {}
+        });
+
         add(scrollPane, BorderLayout.CENTER);
 
         backwardButton.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT,0), "back");
@@ -259,9 +261,12 @@ public class StegSolve extends JFrame
         forwardButton.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT,0), "forward");
         forwardButton.getActionMap().put("forward", forwardButtonPress);
         
-        this.setTitle("StegSolve 1.3 by Caesum");
+        this.setTitle("StegSolve 1.4 by Caesum (Mod by Giotino)");
         this.setMaximumSize(getToolkit().getScreenSize());
+
         pack();
+
+        this.setSize(500, 600);
         //setResizable(false);
     }// </editor-fold>
 
@@ -420,16 +425,27 @@ public class StegSolve extends JFrame
         if(rVal == JFileChooser.APPROVE_OPTION)
         {
             sfile = fileChooser.getSelectedFile();
-            try
-            {
-                bi = ImageIO.read(sfile);
-                transform = new Transform(bi);
-                newImage();
-            }
-            catch (Exception e)
-            {
-                JOptionPane.showMessageDialog(this, "Failed to load file: " +e.toString());
-            }
+            loadImage(sfile);
+        }
+    }
+
+    public void loadImage(String path) {
+        File sfile = new File(path);
+        loadImage(sfile);
+    }
+
+    void loadImage(File sfile) {
+        this.sfile = sfile;
+        try
+        {
+            bi = ImageIO.read(sfile);
+            transform = new Transform(bi);
+            newImage();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Failed to load file: " +e.toString());
         }
     }
 
@@ -440,10 +456,11 @@ public class StegSolve extends JFrame
     {
         nowShowing.setText(transform.getText());
         dp.setImage(transform.getImage());
-        dp.setSize(transform.getImage().getWidth(),transform.getImage().getHeight());
+        dp.setSize(transform.getImage().getWidth(), transform.getImage().getHeight());
         dp.setPreferredSize(new Dimension(transform.getImage().getWidth(),transform.getImage().getHeight()));
         this.setMaximumSize(getToolkit().getScreenSize());
-        pack();
+        zoomSlider.setValue(100);
+        dp.apply(100);
         scrollPane.revalidate();
         repaint();
     }
@@ -462,11 +479,6 @@ public class StegSolve extends JFrame
     * @param args the command line arguments
     */
     public static void main(String args[]) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new StegSolve().setVisible(true);
-            }
-        });
+        EventQueue.invokeLater(() -> new StegSolve().setVisible(true));
     }
-
 }

@@ -6,6 +6,8 @@
 
 package stegsolve;
 
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.image.*;
 import javax.swing.*;
 import java.io.*;
@@ -402,6 +404,7 @@ public class Extract extends javax.swing.JFrame {
         bitPlanesPanel = new javax.swing.JPanel();
         alphaBitPanel = new javax.swing.JPanel();
         alphaLabel = new javax.swing.JLabel();
+        aba = new javax.swing.JCheckBox();
         ab7 = new javax.swing.JCheckBox();
         ab6 = new javax.swing.JCheckBox();
         ab5 = new javax.swing.JCheckBox();
@@ -412,6 +415,7 @@ public class Extract extends javax.swing.JFrame {
         ab0 = new javax.swing.JCheckBox();
         redBitPanel = new javax.swing.JPanel();
         redLabel = new javax.swing.JLabel();
+        rba = new javax.swing.JCheckBox();
         rb7 = new javax.swing.JCheckBox();
         rb6 = new javax.swing.JCheckBox();
         rb5 = new javax.swing.JCheckBox();
@@ -422,6 +426,7 @@ public class Extract extends javax.swing.JFrame {
         rb0 = new javax.swing.JCheckBox();
         greenBitPanel = new javax.swing.JPanel();
         greenLabel = new javax.swing.JLabel();
+        gba = new javax.swing.JCheckBox();
         gb7 = new javax.swing.JCheckBox();
         gb6 = new javax.swing.JCheckBox();
         gb5 = new javax.swing.JCheckBox();
@@ -432,6 +437,7 @@ public class Extract extends javax.swing.JFrame {
         gb0 = new javax.swing.JCheckBox();
         blueBitPanel = new javax.swing.JPanel();
         blueLabel = new javax.swing.JLabel();
+        bba = new javax.swing.JCheckBox();
         bb7 = new javax.swing.JCheckBox();
         bb6 = new javax.swing.JCheckBox();
         bb5 = new javax.swing.JCheckBox();
@@ -472,7 +478,7 @@ public class Extract extends javax.swing.JFrame {
         cancelButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(720, 560));
+        setMinimumSize(new java.awt.Dimension(790, 560));
         getContentPane().setLayout(new java.awt.BorderLayout(5, 5));
 
         optionsPanel.setMinimumSize(new java.awt.Dimension(720, 280));
@@ -482,13 +488,14 @@ public class Extract extends javax.swing.JFrame {
         lhSettingsPanel.setMinimumSize(new java.awt.Dimension(360, 280));
         lhSettingsPanel.setPreferredSize(new java.awt.Dimension(360, 280));
 
-        bitPlanesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Bit Planes"));
-        bitPlanesPanel.setMinimumSize(new java.awt.Dimension(360, 200));
-        bitPlanesPanel.setPreferredSize(new java.awt.Dimension(360, 200));
+        int bitPlanesWidth = 480;
 
-        alphaBitPanel.setMinimumSize(new java.awt.Dimension(100, 33));
+        bitPlanesPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Bit Planes"));
+        bitPlanesPanel.setMinimumSize(new java.awt.Dimension(bitPlanesWidth, 200));
+        bitPlanesPanel.setPreferredSize(new java.awt.Dimension(bitPlanesWidth, 200));
+
         alphaBitPanel.setName("alphaBitPanel"); // NOI18N
-        alphaBitPanel.setPreferredSize(new java.awt.Dimension(350, 34));
+        alphaBitPanel.setPreferredSize(new java.awt.Dimension(bitPlanesWidth-10, 34));
 
         alphaLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         alphaLabel.setText("Alpha");
@@ -497,6 +504,11 @@ public class Extract extends javax.swing.JFrame {
         alphaLabel.setMinimumSize(new java.awt.Dimension(40, 14));
         alphaLabel.setPreferredSize(new java.awt.Dimension(40, 14));
         alphaBitPanel.add(alphaLabel);
+
+        aba.setText("all");
+        alphaBitPanel.add(aba);
+
+        checkAllListener(aba, ab7, ab6, ab5, ab4, ab3, ab2, ab1, ab0);
 
         ab7.setText("7");
         alphaBitPanel.add(ab7);
@@ -525,8 +537,7 @@ public class Extract extends javax.swing.JFrame {
         bitPlanesPanel.add(alphaBitPanel);
         alphaBitPanel.getAccessibleContext().setAccessibleName("alphaBitPanel");
 
-        redBitPanel.setMinimumSize(new java.awt.Dimension(100, 33));
-        redBitPanel.setPreferredSize(new java.awt.Dimension(350, 34));
+        redBitPanel.setPreferredSize(new java.awt.Dimension(bitPlanesWidth-10, 34));
 
         redLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         redLabel.setText("Red");
@@ -535,6 +546,11 @@ public class Extract extends javax.swing.JFrame {
         redLabel.setMinimumSize(new java.awt.Dimension(40, 14));
         redLabel.setPreferredSize(new java.awt.Dimension(40, 14));
         redBitPanel.add(redLabel);
+
+        rba.setText("all");
+        redBitPanel.add(rba);
+
+        checkAllListener(rba, rb7, rb6, rb5, rb4, rb3, rb2, rb1, rb0);
 
         rb7.setText("7");
         redBitPanel.add(rb7);
@@ -562,8 +578,7 @@ public class Extract extends javax.swing.JFrame {
 
         bitPlanesPanel.add(redBitPanel);
 
-        greenBitPanel.setMinimumSize(new java.awt.Dimension(100, 33));
-        greenBitPanel.setPreferredSize(new java.awt.Dimension(350, 34));
+        greenBitPanel.setPreferredSize(new java.awt.Dimension(bitPlanesWidth-10, 34));
 
         greenLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         greenLabel.setText("Green");
@@ -572,6 +587,11 @@ public class Extract extends javax.swing.JFrame {
         greenLabel.setMinimumSize(new java.awt.Dimension(40, 14));
         greenLabel.setPreferredSize(new java.awt.Dimension(40, 14));
         greenBitPanel.add(greenLabel);
+
+        gba.setText("all");
+        greenBitPanel.add(gba);
+
+        checkAllListener(gba, gb7, gb6, gb5, gb4, gb3, gb2, gb1, gb0);
 
         gb7.setText("7");
         greenBitPanel.add(gb7);
@@ -599,8 +619,7 @@ public class Extract extends javax.swing.JFrame {
 
         bitPlanesPanel.add(greenBitPanel);
 
-        blueBitPanel.setMinimumSize(new java.awt.Dimension(100, 33));
-        blueBitPanel.setPreferredSize(new java.awt.Dimension(350, 34));
+        blueBitPanel.setPreferredSize(new java.awt.Dimension(bitPlanesWidth-10, 34));
 
         blueLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         blueLabel.setText("Blue");
@@ -609,6 +628,11 @@ public class Extract extends javax.swing.JFrame {
         blueLabel.setMinimumSize(new java.awt.Dimension(40, 14));
         blueLabel.setPreferredSize(new java.awt.Dimension(40, 14));
         blueBitPanel.add(blueLabel);
+
+        bba.setText("all");
+        blueBitPanel.add(bba);
+
+        checkAllListener(bba, bb7, bb6, bb5, bb4, bb3, bb2, bb1, bb0);
 
         bb7.setText("7");
         blueBitPanel.add(bb7);
@@ -658,8 +682,7 @@ public class Extract extends javax.swing.JFrame {
         rhSettingsPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 5));
 
         orderSettingsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Order settings"));
-        orderSettingsPanel.setMinimumSize(new java.awt.Dimension(300, 260));
-        orderSettingsPanel.setPreferredSize(new java.awt.Dimension(300, 260));
+        orderSettingsPanel.setPreferredSize(new java.awt.Dimension(280, 260));
         orderSettingsPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
         extractByLabel.setText("Extract By");
@@ -676,7 +699,7 @@ public class Extract extends javax.swing.JFrame {
 
         orderSettingsPanel.add(extractByPanel);
 
-        bitOrderPanel.setPreferredSize(new java.awt.Dimension(240, 41));
+        bitOrderPanel.setPreferredSize(new java.awt.Dimension(250, 41));
         bitOrderPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
         bitOrderLabel.setText("Bit Order");
@@ -693,7 +716,7 @@ public class Extract extends javax.swing.JFrame {
 
         orderSettingsPanel.add(bitOrderPanel);
 
-        bitPlaneOrderPanel.setPreferredSize(new java.awt.Dimension(200, 120));
+        bitPlaneOrderPanel.setPreferredSize(new java.awt.Dimension(250, 130));
 
         bitPlaneOrderLabel.setText("Bit Plane Order");
 
@@ -831,6 +854,19 @@ public class Extract extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void checkAllListener(JCheckBox ca, JCheckBox c7, JCheckBox c6, JCheckBox c5, JCheckBox c4, JCheckBox c3, JCheckBox c2, JCheckBox c1, JCheckBox c0) {
+        ca.addItemListener(e -> {
+            c7.setSelected(ca.isSelected());
+            c6.setSelected(ca.isSelected());
+            c5.setSelected(ca.isSelected());
+            c4.setSelected(ca.isSelected());
+            c3.setSelected(ca.isSelected());
+            c2.setSelected(ca.isSelected());
+            c1.setSelected(ca.isSelected());
+            c0.setSelected(ca.isSelected());
+        });
+    }
+
     /**
      * Generate the extract and generate the preview
      * @param evt Event
@@ -885,6 +921,7 @@ public class Extract extends javax.swing.JFrame {
     private javax.swing.JCheckBox ab5;
     private javax.swing.JCheckBox ab6;
     private javax.swing.JCheckBox ab7;
+    private javax.swing.JCheckBox aba;
     private javax.swing.JPanel alphaBitPanel;
     private javax.swing.JLabel alphaLabel;
     private javax.swing.JCheckBox bb0;
@@ -895,6 +932,7 @@ public class Extract extends javax.swing.JFrame {
     private javax.swing.JCheckBox bb5;
     private javax.swing.JCheckBox bb6;
     private javax.swing.JCheckBox bb7;
+    private javax.swing.JCheckBox bba;
     private javax.swing.ButtonGroup bitGroup;
     private javax.swing.JLabel bitOrderLabel;
     private javax.swing.JPanel bitOrderPanel;
@@ -920,6 +958,7 @@ public class Extract extends javax.swing.JFrame {
     private javax.swing.JCheckBox gb5;
     private javax.swing.JCheckBox gb6;
     private javax.swing.JCheckBox gb7;
+    private javax.swing.JCheckBox gba;
     private javax.swing.JPanel greenBitPanel;
     private javax.swing.JLabel greenLabel;
     private javax.swing.JCheckBox hdInclude;
@@ -940,6 +979,7 @@ public class Extract extends javax.swing.JFrame {
     private javax.swing.JCheckBox rb5;
     private javax.swing.JCheckBox rb6;
     private javax.swing.JCheckBox rb7;
+    private javax.swing.JCheckBox rba;
     private javax.swing.JPanel redBitPanel;
     private javax.swing.JLabel redLabel;
     private javax.swing.JPanel rhSettingsPanel;
