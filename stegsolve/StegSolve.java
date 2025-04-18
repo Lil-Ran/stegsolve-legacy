@@ -6,8 +6,6 @@
 
 package stegsolve;
 
-import com.formdev.flatlaf.FlatIntelliJLaf;
-
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
@@ -130,7 +128,6 @@ public class StegSolve extends JFrame {
 
     // <editor-fold defaultstate="collapsed" desc="Initcomponents()">
     private void initComponents() {
-        FlatIntelliJLaf.install();
         menuBar = new JMenuBar();
         menuFile = new JMenu();
         fileOpen = new JMenuItem();
