@@ -26,7 +26,7 @@ public class ZoomSlider extends JPanel {
     private List<SliderChangeListener> changeListeners = new ArrayList<>();
 
     ZoomSlider(int min, int max, int defaultValue) {
-        JLabel tip = new JLabel("Zoom:");
+        JLabel tip = new JLabel("缩放:");
 
         add(tip);
 

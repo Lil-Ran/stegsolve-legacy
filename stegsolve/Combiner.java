@@ -192,7 +192,7 @@ public class Combiner extends JFrame
             }
             catch (Exception e)
             {
-                JOptionPane.showMessageDialog(this, "Failed to write file: "+e.toString());
+                JOptionPane.showMessageDialog(this, "写入文件失败: "+e.toString());
             }
         }
     }
@@ -222,8 +222,10 @@ public class Combiner extends JFrame
         dp.setPreferredSize(new Dimension(transform.getImage().getWidth(),transform.getImage().getHeight()));
         this.setMaximumSize(getToolkit().getScreenSize());
         pack();
+        dp.apply(100);
         scrollPane.revalidate();
         repaint();
+        this.setSize(500, 600);
     }
 
 }

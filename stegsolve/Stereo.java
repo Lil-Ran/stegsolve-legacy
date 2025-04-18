@@ -214,7 +214,9 @@ public class Stereo extends JFrame
         this.setMaximumSize(getToolkit().getScreenSize());
         pack();
         scrollPane.revalidate();
+        dp.apply(100);
         repaint();
+        this.setSize(500, 600);
     }
 
 }

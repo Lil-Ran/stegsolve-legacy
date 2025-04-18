@@ -97,7 +97,7 @@ public class FrameBrowser extends JFrame
                 frames.add(bnext);
                 numframes++;
             }
-            System.out.println("total frames " + numframes);
+            System.out.println("总帧数 " + numframes);
         }
         catch (IOException e)
         {
@@ -253,8 +253,10 @@ public class FrameBrowser extends JFrame
         dp.setPreferredSize(new Dimension(bi.getWidth(),bi.getHeight()));
         this.setMaximumSize(getToolkit().getScreenSize());
         pack();
+        dp.apply(100);
         scrollPane.revalidate();
         repaint();
+        this.setSize(500, 600);
     }
 
 }

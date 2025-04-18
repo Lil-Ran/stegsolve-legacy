@@ -78,7 +78,7 @@ public class StereoTransform {
      */
     public String getText()
     {
-        return "Offset: "+transNum;
+        return "偏移量: "+transNum;
     }
 
     /**
